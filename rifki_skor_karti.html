@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifki (King) Skor Kartı - 3 Kişilik</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 8mm;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 2px;
+            }
+            .no-print {
+                display: none;
+            }
+            table {
+                page-break-inside: avoid;
+            }
+            tr {
+                page-break-inside: avoid;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4px;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 1px;
+            margin-top: 0;
+            font-size: 14px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 8px;
+            margin-bottom: 2px;
+        }
+
+        .rules-summary {
+            background-color: #fff;
+            border: 1px solid #3498db;
+            border-radius: 2px;
+            padding: 3px;
+            margin-bottom: 3px;
+        }
+
+        .rules-summary h3 {
+            margin-top: 0;
+            margin-bottom: 2px;
+            color: #2980b9;
+            font-size: 10px;
+        }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px;
+            font-size: 12px;
+        }
+
+        .rule-item {
+            background-color: #ecf0f1;
+            padding: 2px;
+            border-radius: 2px;
+        }
+
+        .rule-item strong {
+            color: #e74c3c;
+        }
+
+        .score-table-container {
+            background-color: #fff;
+            border-radius: 2px;
+            padding: 3px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 3px;
+        }
+
+        th, td {
+            border: 1px solid #34495e;
+            padding: 1px;
+            text-align: center;
+            font-size: 8px;
+        }
+
+        th {
+            background-color: #34495e;
+            color: white;
+            font-weight: bold;
+        }
+
+        .player-header {
+            background-color: #3498db;
+            min-width: 120px;
+        }
+
+        .player-header-cell {
+            padding: 5px !important;
+        }
+
+        .player-name-display {
+            font-size: 11px;
+            margin-bottom: 2px;
+        }
+
+        .tracker-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 1px;
+            flex-wrap: wrap;
+        }
+
+        .tracker-box {
+            width: 12px;
+            height: 12px;
+            border: 2px solid #34495e;
+            background-color: #ecf0f1;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .tracker-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        }
+
+        .tracker-box.ceza-marked {
+            background-color: #e74c3c;
+            border-color: #c0392b;
+        }
+
+        .tracker-box.koz-marked {
+            background-color: #27ae60;
+            border-color: #229954;
+        }
+
+        .tracker-box.ceza-marked::after {
+            content: 'C';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 8px;
+            font-weight: bold;
+        }
+
+        .tracker-box.koz-marked::after {
+            content: 'K';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 8px;
+            font-weight: bold;
+        }
+
+        .tracker-menu {
+            position: fixed !important;
+            background: white !important;
+            border: 2px solid #34495e !important;
+            border-radius: 4px !important;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+            z-index: 10000 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        .tracker-menu button {
+            padding: 8px 16px !important;
+            border: none !important;
+            cursor: pointer !important;
+            font-weight: bold !important;
+            font-size: 12px !important;
+            transition: background-color 0.2s !important;
+            user-select: none !important;
+        }
+
+        .tracker-menu button:first-child {
+            background: #e74c3c !important;
+            color: white !important;
+            border-bottom: 1px solid #34495e !important;
+        }
+
+        .tracker-menu button:first-child:hover {
+            background: #c0392b !important;
+        }
+
+        .tracker-menu button:last-child {
+            background: #27ae60 !important;
+            color: white !important;
+        }
+
+        .tracker-menu button:last-child:hover {
+            background: #229954 !important;
+        }
+
+        .tracker-box:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .tracker-box.ceza-marked {
+            background-color: #e74c3c;
+            border-color: #c0392b;
+        }
+
+        .tracker-box.koz-marked {
+            background-color: #2ecc71;
+            border-color: #27ae60;
+        }
+
+        @media print {
+            .tracker-box {
+                cursor: default;
+            }
+        }
+
+        .game-number {
+            background-color: #95a5a6;
+            font-weight: bold;
+            width: 50px;
+        }
+
+        .game-type {
+            background-color: #7f8c8d;
+            font-weight: bold;
+            min-width: 140px;
+        }
+
+        .ceza-row {
+            background-color: #ffe6e6;
+        }
+
+        .koz-row {
+            background-color: #e6f7ff;
+        }
+
+        .total-row {
+            background-color: #f1c40f;
+            font-weight: bold;
+            font-size: 10px;
+        }
+
+        .total-cell {
+            padding: 3px !important;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .button-container button {
+            padding: 8px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .button-container button:hover {
+            background-color: #2980b9;
+        }
+
+        .button-container button.danger {
+            background-color: #e74c3c;
+        }
+
+        .button-container button.danger:hover {
+            background-color: #c0392b;
+        }
+
+        .button-container button.success {
+            background-color: #27ae60;
+        }
+
+        .button-container button.success:hover {
+            background-color: #229954;
+        }
+
+        .score-cell {
+            height: 15px;
+            background-color: white;
+            padding: 0 !important;
+        }
+
+        .score-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            text-align: center;
+            font-size: 8px;
+            padding: 1px !important;
+            box-sizing: border-box;
+        }
+
+        /* Remove up/down arrows from number input */
+        .score-input::-webkit-outer-spin-button,
+        .score-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .score-input[type=number] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        .score-input:focus {
+            outline: 2px solid #3498db;
+            background-color: #e8f4f8;
+        }
+
+        .player-names {
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .player-name-input {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-name-input label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .player-name-input input {
+            padding: 8px;
+            border: 2px solid #3498db;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .info-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 2px;
+            padding: 3px;
+            margin-bottom: 15px;
+        }
+
+        .info-box h4 {
+            margin-top: 0;
+            margin-bottom: 2px;
+            color: #856404;
+            font-size: 9px;
+        }
+
+        .info-box ul {
+            margin: 1px 0;
+            padding-left: 12px;
+            font-size: 12px;
+        }
+
+        .info-box li {
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🃏 RİFKİ (KING) SKOR KARTI 🃏</h1>
+        <div class="subtitle">3 Kişilik Versiyon - 18 Oyun (12 Ceza + 6 Koz)</div>
+    </div>
+
+    <div class="rules-summary">
+        <h3>📋 Ceza Puanları (3 Kişilik)</h3>
+        <div class="rules-grid">
+            <div class="rule-item"><strong>El Almaz:</strong> -40 puan/el (13 el)</div>
+            <div class="rule-item"><strong>Kupa Almaz:</strong> -30 puan/kupa (13 kupa)</div>
+            <div class="rule-item"><strong>Erkek Almaz:</strong> -50 puan/erkek (8 erkek)</div>
+            <div class="rule-item"><strong>Kız Almaz:</strong> -90 puan/kız (4 kız)</div>
+            <div class="rule-item"><strong>Rıfkı (K♥):</strong> -300 puan</div>
+            <div class="rule-item"><strong>Son İki:</strong> -170 puan/el (2 el)</div>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <h4>ℹ️ Önemli Bilgiler</h4>
+        <ul>
+            <li>3 kişilik King'de 48 kartlık deste kullanılır (İkililer çıkarılır)</li>
+            <li>Her oyuncuya 16 kart dağıtılır</li>
+            <li>Her oyuncu 4 ceza + 2 koz söyler (Toplam 18 oyun)</li>
+            <li><strong>Koz:</strong> +50 puan/el (13 el)</li>
+            <li><strong>King yapmak:</strong> Koz oyununda 10 el almak (Oyun biter, King yapan çıkar)</li>
+            <li><strong>Batma:</strong> -10 ve altı puan | <strong>Çıkma:</strong> 0 ve üstü puan</li>
+        </ul>
+    </div>
+
+    <div class="player-names no-print">
+        <div class="player-name-input">
+            <label for="player1">Oyuncu 1:</label>
+            <input type="text" id="player1" placeholder="İsim girin" value="Piril">
+        </div>
+        <div class="player-name-input">
+            <label for="player2">Oyuncu 2:</label>
+            <input type="text" id="player2" placeholder="İsim girin" value="Aylin">
+        </div>
+        <div class="player-name-input">
+            <label for="player3">Oyuncu 3:</label>
+            <input type="text" id="player3" placeholder="İsim girin" value="Ulas">
+        </div>
+    </div>
+
+    <div class="score-table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th class="game-number">#</th>
+                    <th class="game-type">Oyun Türü</th>
+                    <th class="player-header player-header-cell">
+                        <div class="player-name-display"><span id="p1-name">Piril</span></div>
+                        <div class="tracker-boxes">
+                            <div class="tracker-box" data-player="1" data-index="0"></div>
+                            <div class="tracker-box" data-player="1" data-index="1"></div>
+                            <div class="tracker-box" data-player="1" data-index="2"></div>
+                            <div class="tracker-box" data-player="1" data-index="3"></div>
+                            <div class="tracker-box" data-player="1" data-index="4"></div>
+                            <div class="tracker-box" data-player="1" data-index="5"></div>
+                        </div>
+                    </th>
+                    <th class="player-header player-header-cell">
+                        <div class="player-name-display"><span id="p2-name">Aylin</span></div>
+                        <div class="tracker-boxes">
+                            <div class="tracker-box" data-player="2" data-index="0"></div>
+                            <div class="tracker-box" data-player="2" data-index="1"></div>
+                            <div class="tracker-box" data-player="2" data-index="2"></div>
+                            <div class="tracker-box" data-player="2" data-index="3"></div>
+                            <div class="tracker-box" data-player="2" data-index="4"></div>
+                            <div class="tracker-box" data-player="2" data-index="5"></div>
+                        </div>
+                    </th>
+                    <th class="player-header player-header-cell">
+                        <div class="player-name-display"><span id="p3-name">Ulas</span></div>
+                        <div class="tracker-boxes">
+                            <div class="tracker-box" data-player="3" data-index="0"></div>
+                            <div class="tracker-box" data-player="3" data-index="1"></div>
+                            <div class="tracker-box" data-player="3" data-index="2"></div>
+                            <div class="tracker-box" data-player="3" data-index="3"></div>
+                            <div class="tracker-box" data-player="3" data-index="4"></div>
+                            <div class="tracker-box" data-player="3" data-index="5"></div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Oyuncu 1'in Turları -->
+                <tr class="ceza-row">
+                    <td class="game-number">1</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="ceza-row">
+                    <td class="game-number">2</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="ceza-row">
+                    <td class="game-number">3</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="ceza-row">
+                    <td class="game-number">4</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="koz-row">
+                    <td class="game-number">5</td>
+                    <td class="game-type">Koz</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="koz-row">
+                    <td class="game-number">6</td>
+                    <td class="game-type">Koz</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+
+                <!-- Oyuncu 2'nin Turları -->
+                <tr class="ceza-row">
+                    <td class="game-number">7</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="ceza-row">
+                    <td class="game-number">8</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="ceza-row">
+                    <td class="game-number">9</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="ceza-row">
+                    <td class="game-number">10</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="koz-row">
+                    <td class="game-number">11</td>
+                    <td class="game-type">Koz</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="koz-row">
+                    <td class="game-number">12</td>
+                    <td class="game-type">Koz</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+
+                <!-- Oyuncu 3'ün Turları -->
+                <tr class="ceza-row">
+                    <td class="game-number">13</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="ceza-row">
+                    <td class="game-number">14</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="ceza-row">
+                    <td class="game-number">15</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="ceza-row">
+                    <td class="game-number">16</td>
+                    <td class="game-type">Ceza</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="koz-row">
+                    <td class="game-number">17</td>
+                    <td class="game-type">Koz</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+                <tr class="koz-row">
+                    <td class="game-number">18</td>
+                    <td class="game-type">Koz</td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                    <td class="score-cell"></td>
+                </tr>
+
+                <!-- Toplam Satırı -->
+                <tr class="total-row">
+                    <td colspan="2">TOPLAM PUAN</td>
+                    <td class="total-cell" id="total-p1">0</td>
+                    <td class="total-cell" id="total-p2">0</td>
+                    <td class="total-cell" id="total-p3">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="button-container no-print">
+        <button onclick="window.print()">🖨️ Yazdır</button>
+        <button onclick="saveScores()" class="success">💾 Kaydet</button>
+        <button onclick="loadScores()" class="success">📂 Yükle</button>
+        <button onclick="clearAllScores()" class="danger">🗑️ Temizle</button>
+        <button onclick="exportToCSV()" class="success">📊 CSV İndir</button>
+        <button onclick="location.reload()">🔄 Yeni Oyun</button>
+    </div>
+
+    <script>
+        // Score tracking data structure
+        const scores = {
+            1: Array(18).fill(0),
+            2: Array(18).fill(0),
+            3: Array(18).fill(0)
+        };
+
+        // Initialize score input fields
+        function initializeScoreInputs() {
+            const tbody = document.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+
+            rows.forEach((row, gameIndex) => {
+                const scoreCells = row.querySelectorAll('.score-cell');
+                scoreCells.forEach((cell, playerIndex) => {
+                    const player = playerIndex + 1;
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.className = 'score-input';
+                    input.value = scores[player][gameIndex] || '';
+                    input.dataset.game = gameIndex;
+                    input.dataset.player = player;
+
+                    input.addEventListener('input', function() {
+                        const value = parseInt(this.value) || 0;
+                        scores[player][gameIndex] = value;
+                        calculateTotals();
+                    });
+
+                    cell.innerHTML = '';
+                    cell.appendChild(input);
+                });
+            });
+        }
+
+        // Calculate and update totals
+        function calculateTotals() {
+            for (let player = 1; player <= 3; player++) {
+                const total = scores[player].reduce((sum, score) => sum + score, 0);
+                document.getElementById(`total-p${player}`).textContent = total;
+            }
+        }
+
+        // Save scores to localStorage
+        function saveScores() {
+            localStorage.setItem('rifki_scores', JSON.stringify(scores));
+            localStorage.setItem('rifki_players', JSON.stringify({
+                p1: document.getElementById('player1').value,
+                p2: document.getElementById('player2').value,
+                p3: document.getElementById('player3').value
+            }));
+            alert('✅ Puanlar kaydedildi!');
+        }
+
+        // Load scores from localStorage
+        function loadScores() {
+            const savedScores = localStorage.getItem('rifki_scores');
+            const savedPlayers = localStorage.getItem('rifki_players');
+
+            if (savedScores) {
+                Object.assign(scores, JSON.parse(savedScores));
+                initializeScoreInputs();
+                calculateTotals();
+                alert('✅ Puanlar yüklendi!');
+            } else {
+                alert('❌ Kaydedilmiş puan bulunamadı!');
+            }
+
+            if (savedPlayers) {
+                const players = JSON.parse(savedPlayers);
+                document.getElementById('player1').value = players.p1;
+                document.getElementById('player2').value = players.p2;
+                document.getElementById('player3').value = players.p3;
+                document.getElementById('p1-name').textContent = players.p1;
+                document.getElementById('p2-name').textContent = players.p2;
+                document.getElementById('p3-name').textContent = players.p3;
+            }
+        }
+
+        // Clear all scores
+        function clearAllScores() {
+            if (confirm('Tüm puanları silmek istediğinizden emin misiniz?')) {
+                scores[1] = Array(18).fill(0);
+                scores[2] = Array(18).fill(0);
+                scores[3] = Array(18).fill(0);
+                initializeScoreInputs();
+                calculateTotals();
+                alert('✅ Tüm puanlar temizlendi!');
+            }
+        }
+
+        // Export scores to CSV
+        function exportToCSV() {
+            const p1Name = document.getElementById('player1').value || 'Oyuncu 1';
+            const p2Name = document.getElementById('player2').value || 'Oyuncu 2';
+            const p3Name = document.getElementById('player3').value || 'Oyuncu 3';
+
+            let csv = 'Oyun No,Oyun Türü,' + p1Name + ',' + p2Name + ',' + p3Name + '\n';
+
+            const tbody = document.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+
+            rows.forEach((row, gameIndex) => {
+                const gameNum = row.querySelector('.game-number').textContent;
+                const gameType = row.querySelector('.game-type').textContent;
+                const p1Score = scores[1][gameIndex] || '';
+                const p2Score = scores[2][gameIndex] || '';
+                const p3Score = scores[3][gameIndex] || '';
+
+                csv += `${gameNum},${gameType},${p1Score},${p2Score},${p3Score}\n`;
+            });
+
+            const p1Total = scores[1].reduce((sum, score) => sum + score, 0);
+            const p2Total = scores[2].reduce((sum, score) => sum + score, 0);
+            const p3Total = scores[3].reduce((sum, score) => sum + score, 0);
+
+            csv += `TOPLAM,,${p1Total},${p2Total},${p3Total}\n`;
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rifki_skorlar_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Update player names
+        document.getElementById('player1').addEventListener('input', function(e) {
+            document.getElementById('p1-name').textContent = e.target.value || 'Oyuncu 1';
+        });
+        document.getElementById('player2').addEventListener('input', function(e) {
+            document.getElementById('p2-name').textContent = e.target.value || 'Oyuncu 2';
+        });
+        document.getElementById('player3').addEventListener('input', function(e) {
+            document.getElementById('p3-name').textContent = e.target.value || 'Oyuncu 3';
+        });
+
+        // Tracker boxes functionality with ceza/koz selection
+        const trackerBoxes = document.querySelectorAll('.tracker-box');
+        const playerTrackers = {
+            1: { ceza: 0, koz: 0 },
+            2: { ceza: 0, koz: 0 },
+            3: { ceza: 0, koz: 0 }
+        };
+
+        trackerBoxes.forEach(box => {
+            box.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const player = this.dataset.player;
+                const index = parseInt(this.dataset.index);
+                const isMarked = this.classList.contains('ceza-marked') || this.classList.contains('koz-marked');
+
+                if (isMarked) {
+                    // If already marked, remove the mark
+                    if (this.classList.contains('ceza-marked')) {
+                        this.classList.remove('ceza-marked');
+                        playerTrackers[player].ceza--;
+                    } else if (this.classList.contains('koz-marked')) {
+                        this.classList.remove('koz-marked');
+                        playerTrackers[player].koz--;
+                    }
+                } else {
+                    // If not marked, show selection menu
+                    showTrackerMenu(this, player, index);
+                }
+            });
+
+            // Prevent context menu on tracker boxes
+            box.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+        });
+
+        // Show context menu for ceza/koz selection
+        function showTrackerMenu(box, player, index) {
+            // Remove any existing menu
+            const existingMenu = document.querySelector('.tracker-menu');
+            if (existingMenu) existingMenu.remove();
+
+            const menu = document.createElement('div');
+            menu.className = 'tracker-menu';
+
+            const cezaBtn = document.createElement('button');
+            cezaBtn.textContent = 'Ceza';
+            cezaBtn.onclick = (e) => {
+                e.stopPropagation();
+                if (playerTrackers[player].ceza < 4) {
+                    box.classList.add('ceza-marked');
+                    playerTrackers[player].ceza++;
+                    menu.remove();
+                } else {
+                    alert('Bu oyuncu için maksimum 4 ceza oyunu kaydedilmiştir!');
+                }
+            };
+
+            const kozBtn = document.createElement('button');
+            kozBtn.textContent = 'Koz';
+            kozBtn.onclick = (e) => {
+                e.stopPropagation();
+                if (playerTrackers[player].koz < 2) {
+                    box.classList.add('koz-marked');
+                    playerTrackers[player].koz++;
+                    menu.remove();
+                } else {
+                    alert('Bu oyuncu için maksimum 2 koz oyunu kaydedilmiştir!');
+                }
+            };
+
+            menu.appendChild(cezaBtn);
+            menu.appendChild(kozBtn);
+            document.body.appendChild(menu);
+
+            // Position menu near the box
+            const rect = box.getBoundingClientRect();
+            menu.style.left = (rect.left + rect.width / 2 - 40) + 'px';
+            menu.style.top = (rect.top + rect.height + 5) + 'px';
+
+            // Close menu when clicking outside
+            const closeMenu = (e) => {
+                if (!menu.contains(e.target) && e.target !== box) {
+                    menu.remove();
+                    document.removeEventListener('click', closeMenu);
+                }
+            };
+            document.addEventListener('click', closeMenu);
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            initializeScoreInputs();
+            calculateTotals();
+        });
+    </script>
+</body>
+</html>
