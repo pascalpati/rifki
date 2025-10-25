@@ -416,12 +416,49 @@
         .info-box li {
             margin-bottom: 0px;
         }
+
+        .game-mode-selector {
+            text-align: center;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+        }
+
+        .mode-btn {
+            padding: 10px 20px;
+            margin: 0 5px;
+            font-size: 14px;
+            border: 2px solid #3498db;
+            background-color: white;
+            color: #3498db;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .mode-btn:hover {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .mode-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🃏 RİFKİ (KING) SKOR KARTI 🃏</h1>
-        <div class="subtitle">3 Kişilik Versiyon - 18 Oyun (12 Ceza + 6 Koz)</div>
+        <div class="subtitle" id="subtitle">3 Kişilik Versiyon - 18 Oyun (12 Ceza + 6 Koz)</div>
+
+        <!-- Game Mode Selector -->
+        <div class="game-mode-selector no-print" style="margin-top: 15px; margin-bottom: 15px;">
+            <label style="font-weight: bold; margin-right: 15px;">Oyun Modu:</label>
+            <button id="mode3" class="mode-btn active" onclick="setGameMode(3)">👥 3 Kişi</button>
+            <button id="mode4" class="mode-btn" onclick="setGameMode(4)">👥 4 Kişi</button>
+        </div>
     </div>
 
     <div class="rules-summary">
@@ -436,30 +473,42 @@
         </div>
     </div>
 
-    <div class="info-box">
-        <h4>ℹ️ Önemli Bilgiler</h4>
-        <ul>
-            <li>3 kişilik King'de 48 kartlık deste kullanılır (İkililer çıkarılır)</li>
-            <li>Her oyuncuya 16 kart dağıtılır</li>
-            <li>Her oyuncu 4 ceza + 2 koz söyler (Toplam 18 oyun)</li>
-            <li><strong>Koz:</strong> +50 puan/el (13 el)</li>
-            <li><strong>King yapmak:</strong> Koz oyununda 10 el almak (Oyun biter, King yapan çıkar)</li>
-            <li><strong>Batma:</strong> -10 ve altı puan | <strong>Çıkma:</strong> 0 ve üstü puan</li>
-        </ul>
+    <div class="info-box" id="info-box">
+        <h4>ℹ️ Kurallar</h4>
+        <div class="rules-grid">
+            <div class="rule-item">
+                <ul style="margin: 0; padding-left: 12px; font-size: 12px;">
+                    <li>3 kişilik King'de 48 kartlık deste kullanılır (İkililer çıkarılır)</li>
+                    <li>Her oyuncuya 16 kart dağıtılır</li>
+                    <li>Her oyuncu 4 ceza + 2 koz söyler (Toplam 18 oyun)</li>
+                </ul>
+            </div>
+            <div class="rule-item">
+                <ul style="margin: 0; padding-left: 12px; font-size: 12px;">
+                    <li><strong>Koz:</strong> +50 puan/el (13 el)</li>
+                    <li><strong>King yapmak:</strong> Koz oyununda 10 el almak (Oyun biter, King yapan çıkar)</li>
+                    <li><strong>Batma:</strong> -10 ve altı puan | <strong>Çıkma:</strong> 0 ve üstü puan</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <div class="player-names no-print">
+    <div class="player-names no-print" id="player-names-container">
         <div class="player-name-input">
             <label for="player1">Oyuncu 1:</label>
-            <input type="text" id="player1" placeholder="İsim girin" value="Piril">
+            <input type="text" id="player1" placeholder="İsim girin">
         </div>
         <div class="player-name-input">
             <label for="player2">Oyuncu 2:</label>
-            <input type="text" id="player2" placeholder="İsim girin" value="Aylin">
+            <input type="text" id="player2" placeholder="İsim girin">
         </div>
         <div class="player-name-input">
             <label for="player3">Oyuncu 3:</label>
-            <input type="text" id="player3" placeholder="İsim girin" value="Ulas">
+            <input type="text" id="player3" placeholder="İsim girin">
+        </div>
+        <div class="player-name-input" id="player4-input" style="display: none;">
+            <label for="player4">Oyuncu 4:</label>
+            <input type="text" id="player4" placeholder="İsim girin">
         </div>
     </div>
 
@@ -470,7 +519,7 @@
                     <th class="game-number">#</th>
                     <th class="game-type">Oyun Türü</th>
                     <th class="player-header player-header-cell">
-                        <div class="player-name-display"><span id="p1-name">Piril</span></div>
+                        <div class="player-name-display"><span id="p1-name">Oyuncu 1</span></div>
                         <div class="tracker-boxes">
                             <div class="tracker-box" data-player="1" data-index="0"></div>
                             <div class="tracker-box" data-player="1" data-index="1"></div>
@@ -481,7 +530,7 @@
                         </div>
                     </th>
                     <th class="player-header player-header-cell">
-                        <div class="player-name-display"><span id="p2-name">Aylin</span></div>
+                        <div class="player-name-display"><span id="p2-name">Oyuncu 2</span></div>
                         <div class="tracker-boxes">
                             <div class="tracker-box" data-player="2" data-index="0"></div>
                             <div class="tracker-box" data-player="2" data-index="1"></div>
@@ -492,7 +541,7 @@
                         </div>
                     </th>
                     <th class="player-header player-header-cell">
-                        <div class="player-name-display"><span id="p3-name">Ulas</span></div>
+                        <div class="player-name-display"><span id="p3-name">Oyuncu 3</span></div>
                         <div class="tracker-boxes">
                             <div class="tracker-box" data-player="3" data-index="0"></div>
                             <div class="tracker-box" data-player="3" data-index="1"></div>
@@ -500,6 +549,17 @@
                             <div class="tracker-box" data-player="3" data-index="3"></div>
                             <div class="tracker-box" data-player="3" data-index="4"></div>
                             <div class="tracker-box" data-player="3" data-index="5"></div>
+                        </div>
+                    </th>
+                    <th class="player-header player-header-cell" id="p4-header" style="display: none;">
+                        <div class="player-name-display"><span id="p4-name">Oyuncu 4</span></div>
+                        <div class="tracker-boxes">
+                            <div class="tracker-box" data-player="4" data-index="0"></div>
+                            <div class="tracker-box" data-player="4" data-index="1"></div>
+                            <div class="tracker-box" data-player="4" data-index="2"></div>
+                            <div class="tracker-box" data-player="4" data-index="3"></div>
+                            <div class="tracker-box" data-player="4" data-index="4"></div>
+                            <div class="tracker-box" data-player="4" data-index="5"></div>
                         </div>
                     </th>
                 </tr>
@@ -643,6 +703,7 @@
                     <td class="total-cell" id="total-p1">0</td>
                     <td class="total-cell" id="total-p2">0</td>
                     <td class="total-cell" id="total-p3">0</td>
+                    <td class="total-cell" id="total-p4" style="display: none;">0</td>
                 </tr>
             </tbody>
         </table>
@@ -658,12 +719,163 @@
     </div>
 
     <script>
+        // Game mode state
+        let currentGameMode = 3;
+
         // Score tracking data structure
         const scores = {
-            1: Array(18).fill(0),
-            2: Array(18).fill(0),
-            3: Array(18).fill(0)
+            1: Array(24).fill(0),
+            2: Array(24).fill(0),
+            3: Array(24).fill(0),
+            4: Array(24).fill(0)
         };
+
+        // Set game mode (3 or 4 players)
+        function setGameMode(mode) {
+            currentGameMode = mode;
+
+            // Update button states
+            document.getElementById('mode3').classList.toggle('active', mode === 3);
+            document.getElementById('mode4').classList.toggle('active', mode === 4);
+
+            // Update subtitle
+            const subtitle = mode === 3
+                ? '3 Kişilik Versiyon - 18 Oyun (12 Ceza + 6 Koz)'
+                : '4 Kişilik Versiyon - 24 Oyun (16 Ceza + 8 Koz)';
+            document.getElementById('subtitle').textContent = subtitle;
+
+            // Update player name inputs
+            document.getElementById('player4-input').style.display = mode === 4 ? 'flex' : 'none';
+
+            // Update player names grid
+            const container = document.getElementById('player-names-container');
+            container.style.gridTemplateColumns = mode === 3 ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)';
+
+            // Update table header
+            document.getElementById('p4-header').style.display = mode === 4 ? 'table-cell' : 'none';
+
+            // Update total row
+            document.getElementById('total-p4').style.display = mode === 4 ? 'table-cell' : 'none';
+
+            // Update table rows
+            updateTableRows(mode);
+
+            // Reset scores
+            scores[1] = Array(mode === 3 ? 18 : 24).fill(0);
+            scores[2] = Array(mode === 3 ? 18 : 24).fill(0);
+            scores[3] = Array(mode === 3 ? 18 : 24).fill(0);
+            scores[4] = Array(mode === 3 ? 18 : 24).fill(0);
+
+            // Reinitialize
+            initializeScoreInputs();
+            calculateTotals();
+            attachTrackerBoxListeners();
+
+            // Update rules
+            updateRules(mode);
+        }
+
+        // Update table rows based on game mode
+        function updateTableRows(mode) {
+            const tbody = document.querySelector('tbody');
+            const totalRow = tbody.querySelector('.total-row');
+
+            // Remove all rows except total
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+            rows.forEach(row => row.remove());
+
+            const numGames = mode === 3 ? 18 : 24;
+            const numPlayers = mode;
+            const gamesPerPlayer = mode === 3 ? 6 : 6; // 4 ceza + 2 koz for each
+
+            // Generate game rows
+            for (let game = 1; game <= numGames; game++) {
+                const row = document.createElement('tr');
+                const gameType = ((game - 1) % gamesPerPlayer < 4) ? 'Ceza' : 'Koz';
+                row.className = gameType === 'Ceza' ? 'ceza-row' : 'koz-row';
+
+                row.innerHTML = `
+                    <td class="game-number">${game}</td>
+                    <td class="game-type">${gameType}</td>
+                `;
+
+                for (let player = 1; player <= numPlayers; player++) {
+                    row.innerHTML += '<td class="score-cell"></td>';
+                }
+
+                tbody.insertBefore(row, totalRow);
+            }
+        }
+
+        // Update rules based on game mode
+        function updateRules(mode) {
+            const rulesContainer = document.querySelector('.rules-summary');
+            const infoBox = document.getElementById('info-box');
+
+            if (mode === 3) {
+                rulesContainer.innerHTML = `
+                    <h3>📋 Ceza Puanları (3 Kişilik)</h3>
+                    <div class="rules-grid">
+                        <div class="rule-item"><strong>El Almaz:</strong> -40 puan/el (13 el)</div>
+                        <div class="rule-item"><strong>Kupa Almaz:</strong> -30 puan/kupa (13 kupa)</div>
+                        <div class="rule-item"><strong>Erkek Almaz:</strong> -50 puan/erkek (8 erkek)</div>
+                        <div class="rule-item"><strong>Kız Almaz:</strong> -90 puan/kız (4 kız)</div>
+                        <div class="rule-item"><strong>Rıfkı (K♥):</strong> -300 puan</div>
+                        <div class="rule-item"><strong>Son İki:</strong> -170 puan/el (2 el)</div>
+                    </div>
+                `;
+                infoBox.innerHTML = `
+                    <h4>ℹ️ Kurallar</h4>
+                    <div class="rules-grid">
+                        <div class="rule-item">
+                            <ul style="margin: 0; padding-left: 12px; font-size: 12px;">
+                                <li>3 kişilik King'de 48 kartlık deste kullanılır (İkililer çıkarılır)</li>
+                                <li>Her oyuncuya 16 kart dağıtılır</li>
+                                <li>Her oyuncu 4 ceza + 2 koz söyler (Toplam 18 oyun)</li>
+                            </ul>
+                        </div>
+                        <div class="rule-item">
+                            <ul style="margin: 0; padding-left: 12px; font-size: 12px;">
+                                <li><strong>Koz:</strong> +50 puan/el (13 el)</li>
+                                <li><strong>King yapmak:</strong> Koz oyununda 10 el almak (Oyun biter, King yapan çıkar)</li>
+                                <li><strong>Batma:</strong> -10 ve altı puan | <strong>Çıkma:</strong> 0 ve üstü puan</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else {
+                rulesContainer.innerHTML = `
+                    <h3>📋 Ceza Puanları (4 Kişilik)</h3>
+                    <div class="rules-grid">
+                        <div class="rule-item"><strong>El Almaz:</strong> -30 puan/el (13 el)</div>
+                        <div class="rule-item"><strong>Kupa Almaz:</strong> -20 puan/kupa (13 kupa)</div>
+                        <div class="rule-item"><strong>Erkek Almaz:</strong> -40 puan/erkek (8 erkek)</div>
+                        <div class="rule-item"><strong>Kız Almaz:</strong> -60 puan/kız (4 kız)</div>
+                        <div class="rule-item"><strong>Rıfkı (K♥):</strong> -200 puan</div>
+                        <div class="rule-item"><strong>Son İki:</strong> -120 puan/el (2 el)</div>
+                    </div>
+                `;
+                infoBox.innerHTML = `
+                    <h4>ℹ️ Kurallar</h4>
+                    <div class="rules-grid">
+                        <div class="rule-item">
+                            <ul style="margin: 0; padding-left: 12px; font-size: 12px;">
+                                <li>4 kişilik King'de 52 kartlık deste kullanılır (Tüm kartlar)</li>
+                                <li>Her oyuncuya 13 kart dağıtılır</li>
+                                <li>Her oyuncu 4 ceza + 2 koz söyler (Toplam 24 oyun)</li>
+                            </ul>
+                        </div>
+                        <div class="rule-item">
+                            <ul style="margin: 0; padding-left: 12px; font-size: 12px;">
+                                <li><strong>Koz:</strong> +40 puan/el (13 el)</li>
+                                <li><strong>King yapmak:</strong> Koz oyununda 10 el almak (Oyun biter, King yapan çıkar)</li>
+                                <li><strong>Batma:</strong> -10 ve altı puan | <strong>Çıkma:</strong> 0 ve üstü puan</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            }
+        }
 
         // Initialize score input fields
         function initializeScoreInputs() {
@@ -695,7 +907,7 @@
 
         // Calculate and update totals
         function calculateTotals() {
-            for (let player = 1; player <= 3; player++) {
+            for (let player = 1; player <= currentGameMode; player++) {
                 const total = scores[player].reduce((sum, score) => sum + score, 0);
                 document.getElementById(`total-p${player}`).textContent = total;
             }
@@ -704,18 +916,25 @@
         // Save scores to localStorage
         function saveScores() {
             localStorage.setItem('rifki_scores', JSON.stringify(scores));
+            localStorage.setItem('rifki_gamemode', currentGameMode);
             localStorage.setItem('rifki_players', JSON.stringify({
                 p1: document.getElementById('player1').value,
                 p2: document.getElementById('player2').value,
-                p3: document.getElementById('player3').value
+                p3: document.getElementById('player3').value,
+                p4: document.getElementById('player4').value
             }));
             alert('✅ Puanlar kaydedildi!');
         }
 
         // Load scores from localStorage
         function loadScores() {
+            const savedGameMode = localStorage.getItem('rifki_gamemode');
             const savedScores = localStorage.getItem('rifki_scores');
             const savedPlayers = localStorage.getItem('rifki_players');
+
+            if (savedGameMode) {
+                setGameMode(parseInt(savedGameMode));
+            }
 
             if (savedScores) {
                 Object.assign(scores, JSON.parse(savedScores));
@@ -728,21 +947,25 @@
 
             if (savedPlayers) {
                 const players = JSON.parse(savedPlayers);
-                document.getElementById('player1').value = players.p1;
-                document.getElementById('player2').value = players.p2;
-                document.getElementById('player3').value = players.p3;
-                document.getElementById('p1-name').textContent = players.p1;
-                document.getElementById('p2-name').textContent = players.p2;
-                document.getElementById('p3-name').textContent = players.p3;
+                document.getElementById('player1').value = players.p1 || '';
+                document.getElementById('player2').value = players.p2 || '';
+                document.getElementById('player3').value = players.p3 || '';
+                document.getElementById('player4').value = players.p4 || '';
+                document.getElementById('p1-name').textContent = players.p1 || 'Oyuncu 1';
+                document.getElementById('p2-name').textContent = players.p2 || 'Oyuncu 2';
+                document.getElementById('p3-name').textContent = players.p3 || 'Oyuncu 3';
+                document.getElementById('p4-name').textContent = players.p4 || 'Oyuncu 4';
             }
         }
 
         // Clear all scores
         function clearAllScores() {
             if (confirm('Tüm puanları silmek istediğinizden emin misiniz?')) {
-                scores[1] = Array(18).fill(0);
-                scores[2] = Array(18).fill(0);
-                scores[3] = Array(18).fill(0);
+                const numGames = currentGameMode === 3 ? 18 : 24;
+                scores[1] = Array(numGames).fill(0);
+                scores[2] = Array(numGames).fill(0);
+                scores[3] = Array(numGames).fill(0);
+                scores[4] = Array(numGames).fill(0);
                 initializeScoreInputs();
                 calculateTotals();
                 alert('✅ Tüm puanlar temizlendi!');
@@ -754,8 +977,11 @@
             const p1Name = document.getElementById('player1').value || 'Oyuncu 1';
             const p2Name = document.getElementById('player2').value || 'Oyuncu 2';
             const p3Name = document.getElementById('player3').value || 'Oyuncu 3';
+            const p4Name = document.getElementById('player4').value || 'Oyuncu 4';
 
-            let csv = 'Oyun No,Oyun Türü,' + p1Name + ',' + p2Name + ',' + p3Name + '\n';
+            let csv = 'Oyun No,Oyun Türü,' + p1Name + ',' + p2Name + ',' + p3Name;
+            if (currentGameMode === 4) csv += ',' + p4Name;
+            csv += '\n';
 
             const tbody = document.querySelector('tbody');
             const rows = tbody.querySelectorAll('tr:not(.total-row)');
@@ -766,15 +992,21 @@
                 const p1Score = scores[1][gameIndex] || '';
                 const p2Score = scores[2][gameIndex] || '';
                 const p3Score = scores[3][gameIndex] || '';
+                const p4Score = scores[4][gameIndex] || '';
 
-                csv += `${gameNum},${gameType},${p1Score},${p2Score},${p3Score}\n`;
+                csv += `${gameNum},${gameType},${p1Score},${p2Score},${p3Score}`;
+                if (currentGameMode === 4) csv += `,${p4Score}`;
+                csv += '\n';
             });
 
             const p1Total = scores[1].reduce((sum, score) => sum + score, 0);
             const p2Total = scores[2].reduce((sum, score) => sum + score, 0);
             const p3Total = scores[3].reduce((sum, score) => sum + score, 0);
+            const p4Total = scores[4].reduce((sum, score) => sum + score, 0);
 
-            csv += `TOPLAM,,${p1Total},${p2Total},${p3Total}\n`;
+            csv += `TOPLAM,,${p1Total},${p2Total},${p3Total}`;
+            if (currentGameMode === 4) csv += `,${p4Total}`;
+            csv += '\n';
 
             const blob = new Blob([csv], { type: 'text/csv' });
             const url = window.URL.createObjectURL(blob);
@@ -795,44 +1027,57 @@
         document.getElementById('player3').addEventListener('input', function(e) {
             document.getElementById('p3-name').textContent = e.target.value || 'Oyuncu 3';
         });
+        document.getElementById('player4').addEventListener('input', function(e) {
+            document.getElementById('p4-name').textContent = e.target.value || 'Oyuncu 4';
+        });
 
         // Tracker boxes functionality with ceza/koz selection
-        const trackerBoxes = document.querySelectorAll('.tracker-box');
         const playerTrackers = {
             1: { ceza: 0, koz: 0 },
             2: { ceza: 0, koz: 0 },
-            3: { ceza: 0, koz: 0 }
+            3: { ceza: 0, koz: 0 },
+            4: { ceza: 0, koz: 0 }
         };
 
-        trackerBoxes.forEach(box => {
-            box.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                const player = this.dataset.player;
-                const index = parseInt(this.dataset.index);
-                const isMarked = this.classList.contains('ceza-marked') || this.classList.contains('koz-marked');
+        function attachTrackerBoxListeners() {
+            const trackerBoxes = document.querySelectorAll('.tracker-box');
+            trackerBoxes.forEach(box => {
+                // Remove old listeners by cloning
+                const newBox = box.cloneNode(true);
+                box.parentNode.replaceChild(newBox, box);
+            });
 
-                if (isMarked) {
-                    // If already marked, remove the mark
-                    if (this.classList.contains('ceza-marked')) {
-                        this.classList.remove('ceza-marked');
-                        playerTrackers[player].ceza--;
-                    } else if (this.classList.contains('koz-marked')) {
-                        this.classList.remove('koz-marked');
-                        playerTrackers[player].koz--;
-                    }
-                } else {
-                    // If not marked, show selection menu
-                    showTrackerMenu(this, player, index);
+            const newTrackerBoxes = document.querySelectorAll('.tracker-box');
+            newTrackerBoxes.forEach(box => {
+                box.addEventListener('click', handleTrackerBoxClick);
+                box.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    return false;
+                });
+            });
+        }
+
+        function handleTrackerBoxClick(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const player = this.dataset.player;
+            const index = parseInt(this.dataset.index);
+            const isMarked = this.classList.contains('ceza-marked') || this.classList.contains('koz-marked');
+
+            if (isMarked) {
+                if (this.classList.contains('ceza-marked')) {
+                    this.classList.remove('ceza-marked');
+                    playerTrackers[player].ceza--;
+                } else if (this.classList.contains('koz-marked')) {
+                    this.classList.remove('koz-marked');
+                    playerTrackers[player].koz--;
                 }
-            });
+            } else {
+                showTrackerMenu(this, player, index);
+            }
+        }
 
-            // Prevent context menu on tracker boxes
-            box.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                return false;
-            });
-        });
+
 
         // Show context menu for ceza/koz selection
         function showTrackerMenu(box, player, index) {
@@ -892,6 +1137,7 @@
         window.addEventListener('DOMContentLoaded', function() {
             initializeScoreInputs();
             calculateTotals();
+            attachTrackerBoxListeners();
         });
     </script>
 </body>
