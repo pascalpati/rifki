@@ -137,7 +137,7 @@
             border: 2px solid #34495e;
             background-color: #ecf0f1;
             border-radius: 2px;
-            cursor: pointer;
+            cursor: default;
             transition: all 0.2s;
             position: relative;
             user-select: none;
@@ -146,10 +146,7 @@
             -ms-user-select: none;
         }
 
-        .tracker-box:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 4px rgba(0,0,0,0.3);
-        }
+
 
         .tracker-box.ceza-marked {
             background-color: #e74c3c;
@@ -255,6 +252,41 @@
             background-color: #7f8c8d;
             font-weight: bold;
             min-width: 140px;
+            padding: 0 !important;
+        }
+
+        .game-type-select {
+            width: 100%;
+            min-height: 20px;
+            border: none;
+            padding: 2px 4px;
+            font-size: 8px;
+            font-weight: bold;
+            background-color: #7f8c8d;
+            color: white;
+            cursor: pointer;
+            box-sizing: border-box;
+            display: block !important;
+        }
+
+        .game-type-select:focus {
+            outline: 2px solid #3498db;
+        }
+
+        .game-type-select option {
+            background-color: white;
+            color: black;
+        }
+
+        .game-type-select option:disabled {
+            color: #999;
+        }
+
+        .game-type-display {
+            cursor: pointer;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
         }
 
         .ceza-row {
@@ -315,19 +347,56 @@
         }
 
         .score-cell {
-            height: 15px;
             background-color: white;
-            padding: 0 !important;
+            padding: 2px !important;
+            min-width: 100px;
+        }
+
+        .score-cell-content {
+            display: flex;
+            gap: 2px;
+            width: 100%;
+        }
+
+        .score-game-type-select {
+            flex: 1;
+            border: 1px solid #bdc3c7;
+            padding: 2px;
+            font-size: 7px;
+            box-sizing: border-box;
+            background-color: white;
+            color: black;
+            cursor: pointer;
+        }
+
+        .score-game-type-select:focus {
+            outline: 2px solid #3498db;
+        }
+
+        .score-game-type-select option {
+            background-color: white;
+            color: black;
+        }
+
+        .score-game-type-select option:disabled {
+            background-color: #d3d3d3;
+            color: #888;
+            font-style: italic;
         }
 
         .score-input {
-            width: 100%;
-            height: 100%;
-            border: none;
+            flex: 1;
+            border: 1px solid #bdc3c7;
             text-align: center;
             font-size: 8px;
-            padding: 1px !important;
+            padding: 2px !important;
             box-sizing: border-box;
+        }
+
+        .score-input:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
         /* Remove up/down arrows from number input */
@@ -345,6 +414,46 @@
         .score-input:focus {
             outline: 2px solid #3498db;
             background-color: #e8f4f8;
+        }
+
+        /* Locked row styling */
+        .locked-row {
+            opacity: 0.7;
+            background-color: #f8f9fa;
+        }
+
+        .locked-row input:disabled,
+        .locked-row select:disabled {
+            cursor: not-allowed;
+            background-color: #e9ecef;
+        }
+
+        /* Edit button styling */
+        .edit-btn {
+            display: block;
+            margin: 2px auto 0;
+            padding: 2px 6px;
+            font-size: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .edit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Active player dropdown highlighting */
+        .active-player-select {
+            border: 2px solid #f39c12;
+            background-color: #fff9e6;
+        }
+
+        .active-player-select:focus {
+            outline: 2px solid #e67e22;
         }
 
         .player-names {
@@ -517,7 +626,6 @@
             <thead>
                 <tr>
                     <th class="game-number">#</th>
-                    <th class="game-type">Oyun Türü</th>
                     <th class="player-header player-header-cell">
                         <div class="player-name-display"><span id="p1-name">Oyuncu 1</span></div>
                         <div class="tracker-boxes">
@@ -565,141 +673,9 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Oyuncu 1'in Turları -->
-                <tr class="ceza-row">
-                    <td class="game-number">1</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="ceza-row">
-                    <td class="game-number">2</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="ceza-row">
-                    <td class="game-number">3</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="ceza-row">
-                    <td class="game-number">4</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="koz-row">
-                    <td class="game-number">5</td>
-                    <td class="game-type">Koz</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="koz-row">
-                    <td class="game-number">6</td>
-                    <td class="game-type">Koz</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-
-                <!-- Oyuncu 2'nin Turları -->
-                <tr class="ceza-row">
-                    <td class="game-number">7</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="ceza-row">
-                    <td class="game-number">8</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="ceza-row">
-                    <td class="game-number">9</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="ceza-row">
-                    <td class="game-number">10</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="koz-row">
-                    <td class="game-number">11</td>
-                    <td class="game-type">Koz</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="koz-row">
-                    <td class="game-number">12</td>
-                    <td class="game-type">Koz</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-
-                <!-- Oyuncu 3'ün Turları -->
-                <tr class="ceza-row">
-                    <td class="game-number">13</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="ceza-row">
-                    <td class="game-number">14</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="ceza-row">
-                    <td class="game-number">15</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="ceza-row">
-                    <td class="game-number">16</td>
-                    <td class="game-type">Ceza</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="koz-row">
-                    <td class="game-number">17</td>
-                    <td class="game-type">Koz</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-                <tr class="koz-row">
-                    <td class="game-number">18</td>
-                    <td class="game-type">Koz</td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                    <td class="score-cell"></td>
-                </tr>
-
                 <!-- Toplam Satırı -->
                 <tr class="total-row">
-                    <td colspan="2">TOPLAM PUAN</td>
+                    <td>TOPLAM PUAN</td>
                     <td class="total-cell" id="total-p1">0</td>
                     <td class="total-cell" id="total-p2">0</td>
                     <td class="total-cell" id="total-p3">0</td>
@@ -722,13 +698,47 @@
         // Game mode state
         let currentGameMode = 3;
 
-        // Score tracking data structure
-        const scores = {
-            1: Array(24).fill(0),
-            2: Array(24).fill(0),
-            3: Array(24).fill(0),
-            4: Array(24).fill(0)
+        // Comprehensive state tracking for each mode
+        const gameStateMode3 = {
+            scores: {
+                1: Array(18).fill(0),
+                2: Array(18).fill(0),
+                3: Array(18).fill(0),
+                4: Array(18).fill(0)
+            },
+            gameTypes: {}, // Track which game type was selected for each game index
+            rowStates: {}, // Track visibility and lock state for each row
+            playerGameTypes: {
+                1: { cezaCount: 0, koz: 0 },
+                2: { cezaCount: 0, koz: 0 },
+                3: { cezaCount: 0, koz: 0 },
+                4: { cezaCount: 0, koz: 0 }
+            },
+            trackerBoxStates: {} // Track exact order of tracker box markings
         };
+
+        const gameStateMode4 = {
+            scores: {
+                1: Array(24).fill(0),
+                2: Array(24).fill(0),
+                3: Array(24).fill(0),
+                4: Array(24).fill(0)
+            },
+            gameTypes: {},
+            rowStates: {},
+            playerGameTypes: {
+                1: { cezaCount: 0, koz: 0 },
+                2: { cezaCount: 0, koz: 0 },
+                3: { cezaCount: 0, koz: 0 },
+                4: { cezaCount: 0, koz: 0 }
+            },
+            trackerBoxStates: {}
+        };
+
+        // Active references (point to current mode's state)
+        let currentGameState = gameStateMode3;
+        let scores = currentGameState.scores;
+        let playerGameTypes = currentGameState.playerGameTypes;
 
         // Set game mode (3 or 4 players)
         function setGameMode(mode) {
@@ -760,20 +770,36 @@
             // Update table rows
             updateTableRows(mode);
 
-            // Reset scores
-            scores[1] = Array(mode === 3 ? 18 : 24).fill(0);
-            scores[2] = Array(mode === 3 ? 18 : 24).fill(0);
-            scores[3] = Array(mode === 3 ? 18 : 24).fill(0);
-            scores[4] = Array(mode === 3 ? 18 : 24).fill(0);
+            // Switch to the appropriate game state for this mode
+            if (mode === 3) {
+                currentGameState = gameStateMode3;
+            } else {
+                currentGameState = gameStateMode4;
+            }
 
-            // Reinitialize
-            initializeScoreInputs();
+            // Update active references
+            scores = currentGameState.scores;
+            playerGameTypes = currentGameState.playerGameTypes;
+
+            // Restore the complete UI state for this mode
+            restoreGameState();
+
             calculateTotals();
             attachTrackerBoxListeners();
 
             // Update rules
             updateRules(mode);
         }
+
+        // Ceza game types
+        const cezaGameTypes = [
+            'El Almaz',
+            'Kupa Almaz',
+            'Erkek Almaz',
+            'Kız Almaz',
+            'Rıfkı (K♥)',
+            'Son İki'
+        ];
 
         // Update table rows based on game mode
         function updateTableRows(mode) {
@@ -786,24 +812,201 @@
 
             const numGames = mode === 3 ? 18 : 24;
             const numPlayers = mode;
-            const gamesPerPlayer = mode === 3 ? 6 : 6; // 4 ceza + 2 koz for each
+            const gamesPerPlayer = 6; // 4 ceza + 2 koz for each
 
             // Generate game rows
             for (let game = 1; game <= numGames; game++) {
                 const row = document.createElement('tr');
-                const gameType = ((game - 1) % gamesPerPlayer < 4) ? 'Ceza' : 'Koz';
-                row.className = gameType === 'Ceza' ? 'ceza-row' : 'koz-row';
+                const gameIndexInCycle = (game - 1) % gamesPerPlayer;
+                row.className = ''; // No default class
+                row.dataset.gameIndex = game - 1;
 
-                row.innerHTML = `
-                    <td class="game-number">${game}</td>
-                    <td class="game-type">${gameType}</td>
-                `;
+                // Create game number cell
+                const gameNumberCell = document.createElement('td');
+                gameNumberCell.className = 'game-number';
+                gameNumberCell.textContent = game;
+                row.appendChild(gameNumberCell);
 
+                // Add score cells for each player
                 for (let player = 1; player <= numPlayers; player++) {
-                    row.innerHTML += '<td class="score-cell"></td>';
+                    const scoreCell = document.createElement('td');
+                    scoreCell.className = 'score-cell';
+                    row.appendChild(scoreCell);
                 }
 
                 tbody.insertBefore(row, totalRow);
+            }
+        }
+
+        // Restore complete game state from saved data
+        function restoreGameState() {
+            const tbody = document.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+
+            // First, rebuild all UI elements
+            rows.forEach((row, gameIndex) => {
+                const activePlayer = getActivePlayer(gameIndex);
+                const scoreCells = row.querySelectorAll('.score-cell');
+
+                scoreCells.forEach((cell, playerIndex) => {
+                    const player = playerIndex + 1;
+                    const isActivePlayerCell = (player === activePlayer);
+
+                    // Create container for dropdown and input
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'score-cell-content';
+
+                    // Only create dropdown for the active player
+                    if (isActivePlayerCell) {
+                        const select = document.createElement('select');
+                        select.className = 'score-game-type-select active-player-select';
+                        select.dataset.game = gameIndex;
+                        select.dataset.player = player;
+
+                        // Add placeholder option
+                        const placeholderOption = document.createElement('option');
+                        placeholderOption.value = '';
+                        placeholderOption.textContent = 'Oyun Tipi';
+                        placeholderOption.disabled = false;
+                        placeholderOption.selected = true;
+                        select.appendChild(placeholderOption);
+
+                        // Add all ceza game types
+                        cezaGameTypes.forEach(cezaType => {
+                            const option = document.createElement('option');
+                            option.value = 'Ceza:' + cezaType;
+                            option.textContent = cezaType;
+                            select.appendChild(option);
+                        });
+
+                        // Add Koz option
+                        const kozOption = document.createElement('option');
+                        kozOption.value = 'Koz';
+                        kozOption.textContent = 'Koz';
+                        select.appendChild(kozOption);
+
+                        // Restore saved game type if exists
+                        const savedGameType = currentGameState.gameTypes[gameIndex];
+                        if (savedGameType) {
+                            select.value = savedGameType;
+                        }
+
+                        // Update dropdown options based on active player's remaining types
+                        updateDropdownOptions(select, activePlayer);
+
+                        // Handle game type change
+                        select.addEventListener('change', function() {
+                            if (this.value) {
+                                handleGameTypeSelection(gameIndex, this.value);
+                            }
+                        });
+
+                        contentDiv.appendChild(select);
+                    }
+
+                    // Create score input for all players
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.className = 'score-input';
+                    input.value = scores[player][gameIndex] || '';
+                    input.dataset.game = gameIndex;
+                    input.dataset.player = player;
+
+                    // Determine if input should be disabled
+                    const savedGameType = currentGameState.gameTypes[gameIndex];
+                    input.disabled = !savedGameType; // Disabled if no game type selected
+                    input.placeholder = savedGameType ? '' : '-';
+
+                    input.addEventListener('input', function() {
+                        const value = parseInt(this.value) || 0;
+                        scores[player][gameIndex] = value;
+                        calculateTotals();
+                    });
+
+                    input.addEventListener('blur', function() {
+                        checkAndLockRow(gameIndex);
+                    });
+
+                    contentDiv.appendChild(input);
+
+                    cell.innerHTML = '';
+                    cell.appendChild(contentDiv);
+                });
+
+                // Restore row visibility and lock state
+                const rowState = currentGameState.rowStates[gameIndex];
+                if (rowState) {
+                    row.style.display = rowState.visible ? '' : 'none';
+                    if (rowState.locked) {
+                        row.classList.add('locked-row');
+                        // Disable all inputs and selects
+                        const inputs = row.querySelectorAll('input, select');
+                        inputs.forEach(input => input.disabled = true);
+                        // Add Edit button
+                        const gameNumberCell = row.querySelector('.game-number');
+                        if (gameNumberCell && !gameNumberCell.querySelector('.edit-btn')) {
+                            const editBtn = document.createElement('button');
+                            editBtn.className = 'edit-btn';
+                            editBtn.textContent = '✎';
+                            editBtn.title = 'Düzenle';
+                            editBtn.onclick = () => unlockRow(gameIndex);
+                            gameNumberCell.appendChild(editBtn);
+                        }
+                    }
+                } else {
+                    // Default: only first row visible
+                    row.style.display = gameIndex === 0 ? '' : 'none';
+                }
+            });
+
+            // Restore tracker boxes
+            document.querySelectorAll('.tracker-box').forEach(box => {
+                box.classList.remove('ceza-marked', 'koz-marked');
+            });
+
+            // Restore tracker box states from saved data
+            Object.keys(currentGameState.trackerBoxStates).forEach(key => {
+                const [player, index] = key.split('-');
+                const boxType = currentGameState.trackerBoxStates[key];
+                const trackerBox = document.querySelector(`.tracker-box[data-player="${player}"][data-index="${index}"]`);
+                if (trackerBox && boxType) {
+                    trackerBox.classList.add(boxType);
+                }
+            });
+        }
+
+        // Update tracker box for a specific player based on their game type selection
+        function updateTrackerBoxForPlayer(gameIndex, player, gameType) {
+            // Get the player's current game count BEFORE incrementing (how many games they've completed so far)
+            const playerGameCount = playerGameTypes[player].cezaCount + playerGameTypes[player].koz;
+
+            // Use the game count as the tracker box index (0-5)
+            const trackerBoxIndex = playerGameCount;
+
+            const trackerBox = document.querySelector(`.tracker-box[data-player="${player}"][data-index="${trackerBoxIndex}"]`);
+            if (trackerBox) {
+                // Clear any existing marks
+                trackerBox.classList.remove('ceza-marked', 'koz-marked');
+
+                // Determine if it's a ceza or koz game
+                const isCezaGame = gameType.startsWith('Ceza:');
+                const isKozGame = gameType === 'Koz';
+
+                // Mark based on game type
+                let boxType = null;
+                if (isCezaGame) {
+                    trackerBox.classList.add('ceza-marked');
+                    boxType = 'ceza-marked';
+                } else if (isKozGame) {
+                    trackerBox.classList.add('koz-marked');
+                    boxType = 'koz-marked';
+                }
+
+                // Save tracker box state
+                if (boxType) {
+                    const key = `${player}-${trackerBoxIndex}`;
+                    currentGameState.trackerBoxStates[key] = boxType;
+                }
             }
         }
 
@@ -877,21 +1080,349 @@
             }
         }
 
-        // Initialize score input fields
-        function initializeScoreInputs() {
+        let initCallCount = 0;
+
+        // Get the active player for a given game index (rotation)
+        function getActivePlayer(gameIndex) {
+            return (gameIndex % currentGameMode) + 1;
+        }
+
+        // Check if a game type option should be disabled for a player
+        function isGameTypeDisabled(player, gameType) {
+            const playerTypes = playerGameTypes[player];
+
+            if (gameType === 'Koz') {
+                return playerTypes.koz >= 2;
+            } else {
+                // It's a Ceza type - only check total count
+                return playerTypes.cezaCount >= 4;
+            }
+        }
+
+        // Update dropdown options based on player's remaining game types
+        function updateDropdownOptions(select, player) {
+            const options = select.querySelectorAll('option');
+            options.forEach(option => {
+                if (option.value && option.value !== '') {
+                    option.disabled = isGameTypeDisabled(player, option.value);
+                }
+            });
+        }
+
+        // Handle game type selection - auto-fill across row
+        function handleGameTypeSelection(gameIndex, selectedValue) {
+            const tbody = document.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+            const row = rows[gameIndex];
+
+            if (!row || !selectedValue) return;
+
+            const activePlayer = getActivePlayer(gameIndex);
+
+            // Auto-fill the same game type to all players in this row
+            const scoreCells = row.querySelectorAll('.score-cell');
+            scoreCells.forEach((cell, playerIndex) => {
+                const player = playerIndex + 1;
+                const select = cell.querySelector('.score-game-type-select');
+                if (select && select.value !== selectedValue) {
+                    select.value = selectedValue;
+                }
+            });
+
+            // Save the game type selection
+            currentGameState.gameTypes[gameIndex] = selectedValue;
+
+            // Update tracker box ONLY for the active player
+            updateTrackerBoxForPlayer(gameIndex, activePlayer, selectedValue);
+
+            // Update player game type tracking for the active player
+            if (selectedValue === 'Koz') {
+                if (playerGameTypes[activePlayer].koz < 2) {
+                    playerGameTypes[activePlayer].koz++;
+                }
+            } else {
+                // It's a Ceza type - just increment the count
+                if (playerGameTypes[activePlayer].cezaCount < 4) {
+                    playerGameTypes[activePlayer].cezaCount++;
+                }
+            }
+
+            // Enable all score inputs in this row
+            const scoreInputs = row.querySelectorAll('.score-input');
+            scoreInputs.forEach(input => {
+                input.disabled = false;
+                input.placeholder = '';
+            });
+
+            // Update dropdown options for the next game of this player
+            updateNextGameDropdownForPlayer(activePlayer);
+
+            // Show next row (but don't lock yet - wait for scores)
+            showNextRow(gameIndex);
+
+            // Save row visibility state
+            currentGameState.rowStates[gameIndex] = {
+                visible: true,
+                locked: false
+            };
+
+            // Check if all scores are entered to lock the row
+            checkAndLockRow(gameIndex);
+        }
+
+        // Update dropdown options for the next game of a specific player
+        function updateNextGameDropdownForPlayer(player) {
             const tbody = document.querySelector('tbody');
             const rows = tbody.querySelectorAll('tr:not(.total-row)');
 
             rows.forEach((row, gameIndex) => {
+                const activePlayer = getActivePlayer(gameIndex);
+                if (activePlayer === player) {
+                    const scoreCells = row.querySelectorAll('.score-cell');
+                    const cell = scoreCells[player - 1];
+                    if (cell) {
+                        const select = cell.querySelector('.score-game-type-select');
+                        if (select && !select.disabled) {
+                            updateDropdownOptions(select, player);
+                        }
+                    }
+                }
+            });
+        }
+
+        // Check if all scores are entered and lock the row if so
+        function checkAndLockRow(gameIndex) {
+            const tbody = document.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+            const row = rows[gameIndex];
+
+            if (!row) return;
+
+            // Check if all score inputs have values (non-empty)
+            const scoreInputs = row.querySelectorAll('.score-input');
+            let allScoresEntered = true;
+
+            scoreInputs.forEach(input => {
+                // Only check if the input has a value (empty string means not entered)
+                if (!input.value || input.value.trim() === '') {
+                    allScoresEntered = false;
+                }
+            });
+
+            if (allScoresEntered) {
+                lockRow(gameIndex);
+            }
+        }
+
+        // Lock a row (make read-only and add Edit button)
+        function lockRow(gameIndex) {
+            const tbody = document.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+            const row = rows[gameIndex];
+
+            if (!row) return;
+
+            row.classList.add('locked-row');
+
+            // Disable all inputs and selects
+            const inputs = row.querySelectorAll('input, select');
+            inputs.forEach(input => input.disabled = true);
+
+            // Add Edit button to game number cell
+            const gameNumberCell = row.querySelector('.game-number');
+            if (gameNumberCell && !gameNumberCell.querySelector('.edit-btn')) {
+                const editBtn = document.createElement('button');
+                editBtn.className = 'edit-btn';
+                editBtn.textContent = '✎';
+                editBtn.title = 'Düzenle';
+                editBtn.onclick = () => unlockRow(gameIndex);
+                gameNumberCell.appendChild(editBtn);
+            }
+
+            // Save locked state
+            if (!currentGameState.rowStates[gameIndex]) {
+                currentGameState.rowStates[gameIndex] = { visible: true, locked: false };
+            }
+            currentGameState.rowStates[gameIndex].locked = true;
+        }
+
+        // Unlock a row for editing
+        function unlockRow(gameIndex) {
+            const tbody = document.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+            const row = rows[gameIndex];
+
+            if (!row) return;
+
+            row.classList.remove('locked-row');
+
+            // Get the active player and current game type
+            const activePlayer = getActivePlayer(gameIndex);
+            const scoreCells = row.querySelectorAll('.score-cell');
+            const activePlayerCell = scoreCells[activePlayer - 1];
+            const activePlayerSelect = activePlayerCell?.querySelector('.score-game-type-select');
+            const currentValue = activePlayerSelect?.value;
+
+            // If there's a current game type, decrement the tracking so it can be re-selected
+            if (currentValue) {
+                // Get the current game count BEFORE decrementing
+                const currentGameCount = playerGameTypes[activePlayer].cezaCount + playerGameTypes[activePlayer].koz;
+                const trackerBoxIndex = currentGameCount - 1; // -1 because we're clearing the last one
+
+                // Remove from player tracking (so rules allow re-selection)
+                if (currentValue === 'Koz') {
+                    playerGameTypes[activePlayer].koz--;
+                } else {
+                    // It's a Ceza type - just decrement the count
+                    playerGameTypes[activePlayer].cezaCount--;
+                }
+
+                // Clear the tracker box for the active player only
+                const trackerBox = document.querySelector(`.tracker-box[data-player="${activePlayer}"][data-index="${trackerBoxIndex}"]`);
+                if (trackerBox) {
+                    trackerBox.classList.remove('ceza-marked', 'koz-marked');
+                    // Clear from saved state
+                    const key = `${activePlayer}-${trackerBoxIndex}`;
+                    delete currentGameState.trackerBoxStates[key];
+                }
+
+                // Update dropdown options to reflect the new available choices
+                if (activePlayerSelect) {
+                    updateDropdownOptions(activePlayerSelect, activePlayer);
+                }
+            }
+
+            // Enable the dropdown (if exists) but keep the value
+            const selects = row.querySelectorAll('select');
+            selects.forEach(select => select.disabled = false);
+
+            // Enable score inputs for editing
+            const scoreInputs = row.querySelectorAll('.score-input');
+            scoreInputs.forEach(input => {
+                input.disabled = false;
+                input.placeholder = '';
+            });
+
+            // Remove Edit button
+            const editBtn = row.querySelector('.edit-btn');
+            if (editBtn) editBtn.remove();
+
+            // Update saved state
+            if (currentGameState.rowStates[gameIndex]) {
+                currentGameState.rowStates[gameIndex].locked = false;
+            }
+
+            // Hide all subsequent rows
+            hideRowsAfter(gameIndex);
+        }
+
+        // Show next row
+        function showNextRow(gameIndex) {
+            const tbody = document.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+            const nextRow = rows[gameIndex + 1];
+
+            if (nextRow) {
+                nextRow.style.display = '';
+                // Save visibility state
+                if (!currentGameState.rowStates[gameIndex + 1]) {
+                    currentGameState.rowStates[gameIndex + 1] = { visible: true, locked: false };
+                } else {
+                    currentGameState.rowStates[gameIndex + 1].visible = true;
+                }
+            }
+        }
+
+        // Hide all rows after a given index
+        function hideRowsAfter(gameIndex) {
+            const tbody = document.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+
+            for (let i = gameIndex + 1; i < rows.length; i++) {
+                rows[i].style.display = 'none';
+                // Save visibility state
+                if (currentGameState.rowStates[i]) {
+                    currentGameState.rowStates[i].visible = false;
+                }
+            }
+        }
+
+        // Initialize score input fields with game type dropdown
+        function initializeScoreInputs() {
+            initCallCount++;
+            const tbody = document.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr:not(.total-row)');
+
+            rows.forEach((row, gameIndex) => {
+                const activePlayer = getActivePlayer(gameIndex);
                 const scoreCells = row.querySelectorAll('.score-cell');
+
+                // Hide all rows except the first one initially
+                if (gameIndex > 0) {
+                    row.style.display = 'none';
+                }
+
+                // Iterate through score cells directly
                 scoreCells.forEach((cell, playerIndex) => {
                     const player = playerIndex + 1;
+                    const isActivePlayerCell = (player === activePlayer);
+
+                    // Create container for dropdown and input
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'score-cell-content';
+
+                    // Only create dropdown for the active player
+                    if (isActivePlayerCell) {
+                        // Create game type dropdown
+                        const select = document.createElement('select');
+                        select.className = 'score-game-type-select active-player-select';
+                        select.dataset.game = gameIndex;
+                        select.dataset.player = player;
+
+                        // Add placeholder option
+                        const placeholderOption = document.createElement('option');
+                        placeholderOption.value = '';
+                        placeholderOption.textContent = 'Oyun Tipi';
+                        placeholderOption.disabled = false;
+                        placeholderOption.selected = true;
+                        select.appendChild(placeholderOption);
+
+                        // Add all ceza game types
+                        cezaGameTypes.forEach(cezaType => {
+                            const option = document.createElement('option');
+                            option.value = 'Ceza:' + cezaType;
+                            option.textContent = cezaType;
+                            select.appendChild(option);
+                        });
+
+                        // Add Koz option
+                        const kozOption = document.createElement('option');
+                        kozOption.value = 'Koz';
+                        kozOption.textContent = 'Koz';
+                        select.appendChild(kozOption);
+
+                        // Update dropdown options based on active player's remaining types
+                        updateDropdownOptions(select, activePlayer);
+
+                        // Handle game type change
+                        select.addEventListener('change', function() {
+                            if (this.value) {
+                                handleGameTypeSelection(gameIndex, this.value);
+                            }
+                        });
+
+                        contentDiv.appendChild(select);
+                    }
+
+                    // Create score input for all players
                     const input = document.createElement('input');
                     input.type = 'number';
                     input.className = 'score-input';
                     input.value = scores[player][gameIndex] || '';
                     input.dataset.game = gameIndex;
                     input.dataset.player = player;
+                    input.disabled = true; // Disabled until game type is selected
+                    input.placeholder = '-';
 
                     input.addEventListener('input', function() {
                         const value = parseInt(this.value) || 0;
@@ -899,8 +1430,15 @@
                         calculateTotals();
                     });
 
+                    // Check for locking on blur (when user leaves the input)
+                    input.addEventListener('blur', function() {
+                        checkAndLockRow(gameIndex);
+                    });
+
+                    contentDiv.appendChild(input);
+
                     cell.innerHTML = '';
-                    cell.appendChild(input);
+                    cell.appendChild(contentDiv);
                 });
             });
         }
@@ -966,7 +1504,24 @@
                 scores[2] = Array(numGames).fill(0);
                 scores[3] = Array(numGames).fill(0);
                 scores[4] = Array(numGames).fill(0);
-                initializeScoreInputs();
+
+                // Reset player game types tracking
+                playerGameTypes[1] = { cezaCount: 0, koz: 0 };
+                playerGameTypes[2] = { cezaCount: 0, koz: 0 };
+                playerGameTypes[3] = { cezaCount: 0, koz: 0 };
+                playerGameTypes[4] = { cezaCount: 0, koz: 0 };
+
+                // Clear game state
+                currentGameState.gameTypes = {};
+                currentGameState.rowStates = {};
+                currentGameState.trackerBoxStates = {};
+
+                // Clear all tracker boxes
+                document.querySelectorAll('.tracker-box').forEach(box => {
+                    box.classList.remove('ceza-marked', 'koz-marked');
+                });
+
+                restoreGameState();
                 calculateTotals();
                 alert('✅ Tüm puanlar temizlendi!');
             }
@@ -1040,41 +1595,14 @@
         };
 
         function attachTrackerBoxListeners() {
-            const trackerBoxes = document.querySelectorAll('.tracker-box');
-            trackerBoxes.forEach(box => {
-                // Remove old listeners by cloning
-                const newBox = box.cloneNode(true);
-                box.parentNode.replaceChild(newBox, box);
-            });
-
-            const newTrackerBoxes = document.querySelectorAll('.tracker-box');
-            newTrackerBoxes.forEach(box => {
-                box.addEventListener('click', handleTrackerBoxClick);
-                box.addEventListener('contextmenu', function(e) {
-                    e.preventDefault();
-                    return false;
-                });
-            });
+            // Tracker boxes are now read-only and updated by dropdown selection
+            // No click listeners needed
         }
 
         function handleTrackerBoxClick(e) {
+            // Disabled - tracker boxes are now read-only
             e.preventDefault();
             e.stopPropagation();
-            const player = this.dataset.player;
-            const index = parseInt(this.dataset.index);
-            const isMarked = this.classList.contains('ceza-marked') || this.classList.contains('koz-marked');
-
-            if (isMarked) {
-                if (this.classList.contains('ceza-marked')) {
-                    this.classList.remove('ceza-marked');
-                    playerTrackers[player].ceza--;
-                } else if (this.classList.contains('koz-marked')) {
-                    this.classList.remove('koz-marked');
-                    playerTrackers[player].koz--;
-                }
-            } else {
-                showTrackerMenu(this, player, index);
-            }
         }
 
 
@@ -1135,9 +1663,28 @@
 
         // Initialize on page load
         window.addEventListener('DOMContentLoaded', function() {
-            initializeScoreInputs();
+            // Initialize with default 3-player mode
+            updateTableRows(currentGameMode);
+            restoreGameState();
             calculateTotals();
             attachTrackerBoxListeners();
+
+            // Debug: Log table structure
+            setTimeout(() => {
+                const tbody = document.querySelector('tbody');
+                const firstRow = tbody.querySelector('tr:not(.total-row)');
+                if (firstRow) {
+                    console.log('=== GAME 1 ROW STRUCTURE ===');
+                    console.log('Total cells in row:', firstRow.children.length);
+
+                    // Count dropdowns in each cell
+                    for (let i = 0; i < firstRow.children.length; i++) {
+                        const cell = firstRow.children[i];
+                        const selectCount = cell.querySelectorAll('select').length;
+                        console.log(`Cell ${i} (${cell.className}): ${selectCount} dropdowns`);
+                    }
+                }
+            }, 100);
         });
     </script>
 </body>
